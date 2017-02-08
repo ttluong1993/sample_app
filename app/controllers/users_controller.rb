@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   def show
     redirect_to root_url and return unless @user.activated
     @microposts = @user.microposts.created_at_desc.paginate page: params[:page]
+    @relationship = current_user.active_relationships
+      .find_by followed_id: @user.id
   end
 
   def new
@@ -51,7 +53,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit:name, :email, :password,
+    params.require(:user).permit :name, :email, :password,
       :password_confirmation
   end
 

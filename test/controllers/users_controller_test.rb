@@ -39,4 +39,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
   end
+
+  test "should redirect following when not logged in" do
+    get user_relationships_path user_id: @user.id, relationship: "following"
+    assert_redirected_to login_url
+  end
+
+  test "should redirect followers when not logged in" do
+    get user_relationships_path user_id: @user.id, relationship: "followed"
+    assert_redirected_to login_url
+  end
 end
